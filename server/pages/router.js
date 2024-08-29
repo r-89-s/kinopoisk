@@ -49,11 +49,9 @@ router.get('/register', (req, res) => {
 router.get('/profile/:id', async (req, res) => {
     const allGenres = await Genres.find()
     const user = await User.findById(req.params.id)
-    // const user = req.user ? await User.findById(req.user._id)
     .populate('toWatch')
     .populate({path: 'toWatch', populate: {path: 'country'}})
     .populate({path: 'toWatch', populate: {path: 'genre'}})
-    // : {}
     if(user.full_name.length > 0){
         res.render("profile", {user: user, genres: allGenres, loginUser: req.user})
     }else{
